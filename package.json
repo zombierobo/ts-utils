@@ -1,0 +1,9 @@
+{
+  "name": "ts-utils",
+  "version": "1.0.0",
+  "description": "library of utility functions",
+  "main": "index.js",
+  "repository": "https://github.com/zombierobo/ts-utils.git",
+  "author": "hasmukhk <hasmukhk@vmware.com>",
+  "license": "MIT"
+}
