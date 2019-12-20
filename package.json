@@ -5,5 +5,20 @@
   "main": "index.js",
   "repository": "https://github.com/zombierobo/ts-utils.git",
   "author": "hasmukhk <hasmukhk@vmware.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "scripts": {
+    "pretty": "prettier --write \"src/**/*.{ts, js}\"",
+    "precommit": "lint-staged"
+  },
+  "devDependencies": {
+    "husky": "^3.1.0",
+    "lint-staged": "^9.5.0",
+    "prettier": "^1.19.1"
+  },
+  "lint-staged": {
+    "*.{ts, js}": [
+      "yarn pretty",
+      "git add"
+    ]
+  }
 }

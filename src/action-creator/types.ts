@@ -3,4 +3,6 @@
 
 type FunctionType = (...args: any[]) => any; // tslint:disable-line
 type ActionCreatorsMapObject = { [actionCreator: string]: FunctionType }; // tslint:disable-line
-export type ActionsUnion<A extends ActionCreatorsMapObject> = ReturnType<A[keyof A]>;
+export type ActionsUnion<A extends ActionCreatorsMapObject> = ReturnType<
+  A[keyof A]
+>;

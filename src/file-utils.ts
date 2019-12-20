@@ -3,6 +3,7 @@ import * as path from 'path';
 
 export const walk = (dir: string): string[] => {
   let results: string[] = [];
+
   const list = fs.readdirSync(dir);
   list.forEach(file => {
     file = path.join(dir, file);

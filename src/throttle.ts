@@ -1,11 +1,10 @@
 type GenericFunc = (...args: any[]) => any;
 
-
 export const throttle = (fn: GenericFunc, wait: number) => {
   let inThrottle: boolean;
-  let lastFn: number;
+  let lastFn: NodeJS.Timeout;
   let lastTime: number;
-  return function () {
+  return function() {
     const context = this,
       args = arguments;
     if (!inThrottle) {
@@ -14,7 +13,7 @@ export const throttle = (fn: GenericFunc, wait: number) => {
       inThrottle = true;
     } else {
       clearTimeout(lastFn);
-      lastFn = setTimeout(function () {
+      lastFn = setTimeout(function() {
         if (Date.now() - lastTime >= wait) {
           fn.apply(context, args);
           lastTime = Date.now();

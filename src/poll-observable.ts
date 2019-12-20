@@ -41,22 +41,24 @@ interface DeciderFunctionProps<NextType, ErrorType> {
 const helperFn = <NextType, ErrorType>(
   observableFn: (...args: any[]) => Observable<NextType>,
   observableFnArgs: any[],
-  deciderFn: (props: DeciderFunctionProps<NextType, ErrorType>) => DeciderAction,
+  deciderFn: (
+    props: DeciderFunctionProps<NextType, ErrorType>
+  ) => DeciderAction,
   iterationCount: number,
   debugMode: boolean,
   history: PollEventHistoryItem<NextType, ErrorType>[] = [],
   nextStartDelay?: number
 ): PollObservableResponse => {
-
-  const clog = (...args: any[]) => debugMode && console.log(`${iterationCount}  :::  `, ...args);
+  const clog = (...args: any[]) =>
+    debugMode && console.log(`${iterationCount}  :::  `, ...args);
 
   clog('helperFn :: ', iterationCount);
 
   let closed = false;
+
   let timeoutId: any;
   let nextLevelForceCancelFn;
   let subscription: Subscription;
-
 
   const abortAndClearResources = () => {
     closed = true;
@@ -74,10 +76,16 @@ const helperFn = <NextType, ErrorType>(
       clog('Not closing Observable subscription.', subscription !== undefined);
     }
     if (nextLevelForceCancelFn) {
-      clog('Closing next level resources.', nextLevelForceCancelFn !== undefined);
+      clog(
+        'Closing next level resources.',
+        nextLevelForceCancelFn !== undefined
+      );
       nextLevelForceCancelFn();
     } else {
-      clog('Not closing next level resources.', nextLevelForceCancelFn !== undefined);
+      clog(
+        'Not closing next level resources.',
+        nextLevelForceCancelFn !== undefined
+      );
     }
   };
 
@@ -89,20 +97,17 @@ const helperFn = <NextType, ErrorType>(
     const nextAction = deciderFn({ data, error, isError, history });
     if (nextAction && nextAction.type === DeciderActionConstants.Continue) {
       clog('Next Action == Continue. Hence continue polling');
-      timeoutId = setTimeout(
-        () => {
-          nextLevelForceCancelFn = helperFn(
-            observableFn,
-            observableFnArgs,
-            deciderFn,
-            iterationCount + 1,
-            debugMode,
-            history,
-            nextAction.nextStartDelay
-          ).forceCancelFn;
-        },
-        nextStartDelay
-      );
+      timeoutId = setTimeout(() => {
+        nextLevelForceCancelFn = helperFn(
+          observableFn,
+          observableFnArgs,
+          deciderFn,
+          iterationCount + 1,
+          debugMode,
+          history,
+          nextAction.nextStartDelay
+        ).forceCancelFn;
+      }, nextStartDelay);
       clog('timeout assigned :: ', timeoutId);
     } else {
       clog('Next Action !== Continue. Stopping polling.');
@@ -111,10 +116,15 @@ const helperFn = <NextType, ErrorType>(
     history.push({ isError, data, error });
   };
 
-  const handleNextData = (data: NextType) => handleUpdate(false, data, undefined);
-  const handleNextError = (error: ErrorType) => handleUpdate(true, undefined, error);
+  const handleNextData = (data: NextType) =>
+    handleUpdate(false, data, undefined);
+  const handleNextError = (error: ErrorType) =>
+    handleUpdate(true, undefined, error);
 
-  subscription = observableFn(...observableFnArgs).subscribe(next => handleNextData(next), error => handleNextError(error));
+  subscription = observableFn(...observableFnArgs).subscribe(
+    next => handleNextData(next),
+    error => handleNextError(error)
+  );
   clog('subscription assigned :: ', subscription);
 
   return {
@@ -126,11 +136,18 @@ const helperFn = <NextType, ErrorType>(
 export const pollObservable = <NextType = any, ErrorType = any>(
   observableFn: (...args: any[]) => Observable<NextType>,
   observableFnArgs: any[],
-  deciderFn: (props: DeciderFunctionProps<NextType, ErrorType>) => DeciderAction,
+  deciderFn: (
+    props: DeciderFunctionProps<NextType, ErrorType>
+  ) => DeciderAction,
   debugMode = false
 ): PollObservableResponse => {
-
-  const { forceCancelFn, closed } = helperFn(observableFn, observableFnArgs, deciderFn, 1, debugMode);
+  const { forceCancelFn, closed } = helperFn(
+    observableFn,
+    observableFnArgs,
+    deciderFn,
+    1,
+    debugMode
+  );
 
   return {
     forceCancelFn,
