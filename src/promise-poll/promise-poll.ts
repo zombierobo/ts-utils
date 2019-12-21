@@ -1,11 +1,15 @@
-const helperFn = <T>(
-  asynFn: (...args: any) => Promise<T>,
-  args: any[],
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type AsyncFn<T, P extends any[]> = (...args: P) => Promise<T>;
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const helperFn = <T, P extends any[]>(
+  asynFn: AsyncFn<T, P>,
+  args: P,
   predicate: (data: T) => boolean,
   resolve: (data: T) => void,
-  reject: (err: any) => void,
+  reject: (err: any) => void, // eslint-disable-line @typescript-eslint/no-explicit-any
   pollInterval: number
-) => {
+): void => {
   asynFn(...args)
     .then(res =>
       predicate(res)
@@ -19,9 +23,10 @@ const helperFn = <T>(
     .catch(err => reject(err));
 };
 
-export const promisePoll = <T>(
-  asynFn: (...args: any) => Promise<T>,
-  args: any[],
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const promisePoll = <T, P extends any[]>(
+  asynFn: AsyncFn<T, P>,
+  args: P,
   predicate: (data: T) => boolean,
   pollInterval = 0
 ): Promise<T> => {

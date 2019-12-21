@@ -17,17 +17,17 @@ export const walk = (dir: string): string[] => {
   return results;
 };
 
-export const deleteFolderIfExists = (folderPath: string) => {
+export const deleteFolderIfExists = (folderPath: string): void => {
   if (fs.existsSync(folderPath)) {
     fs.unlinkSync(folderPath);
   }
 };
 
-export const createFolder = (folderPath: string) => {
+export const createFolder = (folderPath: string): void => {
   fs.mkdirSync(folderPath);
 };
 
-const copyFileSync = (source: string, target: string) => {
+const copyFileSync = (source: string, target: string): void => {
   let targetFile = target;
   // if target is a directory a new file with the same name will be created
   if (fs.existsSync(target)) {
@@ -39,7 +39,10 @@ const copyFileSync = (source: string, target: string) => {
   fs.writeFileSync(targetFile, fs.readFileSync(source));
 };
 
-export const copyFolderRecursiveSync = (source: string, target: string) => {
+export const copyFolderRecursiveSync = (
+  source: string,
+  target: string
+): void => {
   let files = [];
 
   // check if folder needs to be created or integrated
@@ -61,14 +64,14 @@ export const copyFolderRecursiveSync = (source: string, target: string) => {
   }
 };
 
-export const readFileContent = (filePath: string) => {
+export const readFileContent = (filePath: string): string => {
   return fs.readFileSync(filePath).toString();
 };
 
 export const createFileAndWriteContent = (
   filePath: string,
   content: string
-) => {
+): void => {
   fs.openSync(filePath, 'w');
   fs.writeFileSync(filePath, content);
 };
