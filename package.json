@@ -7,6 +7,7 @@
   "author": "Hasmukh Suthar <hasmukhsuthar98@gmail.com>",
   "license": "MIT",
   "scripts": {
+    "lint": "eslint src/**/*.ts",
     "pretty": "prettier --write \"src/**/*.{ts}\"",
     "precommit": "lint-staged",
     "test": "jest --collect-coverage",
@@ -14,7 +15,13 @@
   },
   "devDependencies": {
     "@types/jest": "^24.0.24",
+    "@types/node": "^12.12.21",
     "@types/sinon": "^7.5.1",
+    "@typescript-eslint/eslint-plugin": "^2.12.0",
+    "@typescript-eslint/parser": "^2.12.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.7.0",
+    "eslint-plugin-prettier": "^3.1.2",
     "husky": "^3.1.0",
     "jest": "^24.9.0",
     "lint-staged": "^9.5.0",
