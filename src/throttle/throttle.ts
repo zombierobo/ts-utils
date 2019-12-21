@@ -19,10 +19,8 @@ export function throttle<T, P extends any[]>(
     } else {
       clearTimeout(lastFn);
       lastFn = setTimeout(function() {
-        if (Date.now() - lastTime >= wait) {
-          executeFn();
-          lastTime = Date.now();
-        }
+        executeFn();
+        lastTime = Date.now();
       }, Math.max(wait - (Date.now() - lastTime), 0));
     }
   };
