@@ -4,21 +4,49 @@
   "description": "library of utility functions",
   "main": "index.js",
   "repository": "https://github.com/zombierobo/ts-utils.git",
-  "author": "hasmukhk <hasmukhk@vmware.com>",
+  "author": "Hasmukh Suthar <hasmukhsuthar98@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "pretty": "prettier --write \"src/**/*.{ts, js}\"",
-    "precommit": "lint-staged"
+    "pretty": "prettier --write \"src/**/*.{ts}\"",
+    "precommit": "lint-staged",
+    "test": "jest --collect-coverage",
+    "test:watch": "jest --watchAll --coverage"
   },
   "devDependencies": {
+    "@types/jest": "^24.0.24",
+    "@types/sinon": "^7.5.1",
     "husky": "^3.1.0",
+    "jest": "^24.9.0",
     "lint-staged": "^9.5.0",
-    "prettier": "^1.19.1"
+    "prettier": "^1.19.1",
+    "sinon": "^7.5.0",
+    "ts-jest": "^24.2.0",
+    "typescript": "^3.7.4"
   },
   "lint-staged": {
-    "*.{ts, js}": [
+    "*.{ts}": [
       "yarn pretty",
       "git add"
+    ]
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.ts",
+      "!<rootDir>/node_modules/"
+    ],
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "coverageThreshold": {
+      "global": {
+        "branches": 75,
+        "functions": 75,
+        "lines": 75,
+        "statements": 75
+      }
+    },
+    "coverageReporters": [
+      "text"
     ]
   }
 }
